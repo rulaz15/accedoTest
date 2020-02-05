@@ -1,52 +1,56 @@
 //
-//  ViewController.swift
+//  CharacterDetailController.swift
 //  Test_RATC
 //
-//  Created by Raúl Torres on 03/02/20.
+//  Created by Raúl Torres on 04/02/20.
 //  Copyright © 2020 Raúl Torres. All rights reserved.
 //
 
 import UIKit
 
-class ViewController: UIViewController {
-
-    @IBOutlet weak var charactersCollectionView: UICollectionView!
+class CharacterDetailController: UIViewController {
+    @IBOutlet weak var characterLabel: UILabel!
+    @IBOutlet weak var characterImageView: UIImageView!
+    @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var comicsCollectionView: UICollectionView!
     
-    private let estimatedWidth: CGFloat = 200.0
+    private let estimatedWidth: CGFloat = 100.0
     private let cellMarginSize: CGFloat = 16.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupCollectionView()
     }
-
+    
+    
     private func setupCollectionView() {
-        charactersCollectionView.register(CharacterCollectionCell.self, forCellWithReuseIdentifier: CharacterCollectionCell.identifier)
-        charactersCollectionView.delegate = self
-        charactersCollectionView.dataSource = self
+        comicsCollectionView.register(ComicCollectionCell.self, forCellWithReuseIdentifier: ComicCollectionCell.identifier)
+        comicsCollectionView.delegate = self
+        comicsCollectionView.dataSource = self
         
-        if let flow = charactersCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flow.minimumInteritemSpacing = 16
-            flow.minimumLineSpacing = 16
+        if let flow = comicsCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
+            flow.minimumInteritemSpacing = 8
+            flow.minimumLineSpacing = 8
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailSegue" {
-            
-        }
+
+    deinit {
+        print("CHARACTER DETAIL DEINITIALIZED")
     }
 }
 
+
 // MARK: - COLLECTIONVIEW DELEGATE & DATASOURCE
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension CharacterDetailController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        let num = Int.random(in: 1...50)
+        print(num)
+        return min(num, 20)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionCell.identifier, for: indexPath) as! CharacterCollectionCell
-        cell.customView.characterNameLabel.text = "tessst"
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComicCollectionCell.identifier, for: indexPath) as! ComicCollectionCell
         return cell
     }
     
@@ -56,20 +60,20 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 }
 
 //MARK: - COLLECTIONVIEW FLOW LAYOUT
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension CharacterDetailController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = calculateWidth()
-        return CGSize(width: width, height: width*1.5)
+        return CGSize(width: width, height: width*1.35)
     }
-
+    
     private func calculateWidth() -> CGFloat {
         let estimatedWidth = self.estimatedWidth
         let cellCount = floor(CGFloat(self.view.frame.width) / estimatedWidth)
-
+        
         let margin = cellMarginSize * 2.0
         let width = (self.view.frame.width - cellMarginSize * (cellCount - 1) - margin) / cellCount
-
+        
         return width
     }
 }
