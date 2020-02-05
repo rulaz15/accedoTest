@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class CharactersController: UIViewController {
 
     @IBOutlet weak var charactersCollectionView: UICollectionView!
     
@@ -33,13 +33,13 @@ class ViewController: UIViewController {
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "detailSegue" {
-            
+         //pass selected object
         }
     }
 }
 
 // MARK: - COLLECTIONVIEW DELEGATE & DATASOURCE
-extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+extension CharactersController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 10
     }
@@ -56,7 +56,7 @@ extension ViewController: UICollectionViewDelegate, UICollectionViewDataSource {
 }
 
 //MARK: - COLLECTIONVIEW FLOW LAYOUT
-extension ViewController: UICollectionViewDelegateFlowLayout {
+extension CharactersController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = calculateWidth()

@@ -17,10 +17,12 @@ class CharacterDetailController: UIViewController {
     private let estimatedWidth: CGFloat = 100.0
     private let cellMarginSize: CGFloat = 16.0
     
+    var viewModel: CharacterDetailViewModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         setupCollectionView()
+        setupContent()
     }
     
     
@@ -33,6 +35,12 @@ class CharacterDetailController: UIViewController {
             flow.minimumInteritemSpacing = 8
             flow.minimumLineSpacing = 8
         }
+    }
+    
+    private func setupContent() {
+        characterLabel.text = "vm.name"
+        characterImageView.image = #imageLiteral(resourceName: "big-hero-6")
+        descriptionLabel.text = "vm.description"
     }
 
     deinit {
@@ -51,11 +59,8 @@ extension CharacterDetailController: UICollectionViewDelegate, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComicCollectionCell.identifier, for: indexPath) as! ComicCollectionCell
+//        cell.customView.comicImageView.image = vm.comis[indexPath.row].image
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detailSegue", sender: nil)
     }
 }
 

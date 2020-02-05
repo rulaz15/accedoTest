@@ -23,11 +23,13 @@ struct ResumeData: Codable {
 // MARK: - Character
 struct CharacterData: Codable {
     let id: Int
-    let name, resultDescription: String
+    let name: String
+    let resultDescription: String
     let modified: Date
     let thumbnail: Thumbnail
     let resourceURI: String
-    let comics, series: Comics
+    let comics: Comics
+    let series: Comics
     let stories: Stories
     let events: Comics
     let urls: [URLElement]
