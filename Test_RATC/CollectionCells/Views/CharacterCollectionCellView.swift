@@ -15,6 +15,7 @@ class CharacterCollectionCellView: UIView {
         l.font = UIFont.systemFont(ofSize: 25, weight: .bold)
         l.textAlignment = .center
         l.numberOfLines = 1
+        l.backgroundColor = .lightGray
         return l
     }()
     
@@ -32,7 +33,7 @@ class CharacterCollectionCellView: UIView {
     }
     
     private func setupLayout() {
-        backgroundColor = .lightGray
+        backgroundColor = .clear
         addSubviews(views: characterNameLabel, characterImageView)
         
         characterNameLabel.anchor(

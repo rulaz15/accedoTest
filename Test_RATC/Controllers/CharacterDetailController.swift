@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CharacterDetailController: UIViewController {
+class CharacterDetailController: BaseViewController {
     @IBOutlet weak var characterLabel: UILabel!
     @IBOutlet weak var characterImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -23,8 +23,8 @@ class CharacterDetailController: UIViewController {
         super.viewDidLoad()
         setupCollectionView()
         setupContent()
+        setupObservers()
     }
-    
     
     private func setupCollectionView() {
         comicsCollectionView.register(ComicCollectionCell.self, forCellWithReuseIdentifier: ComicCollectionCell.identifier)
@@ -38,9 +38,20 @@ class CharacterDetailController: UIViewController {
     }
     
     private func setupContent() {
-        characterLabel.text = "vm.name"
-        characterImageView.image = #imageLiteral(resourceName: "big-hero-6")
-        descriptionLabel.text = "vm.description"
+        guard let vm = viewModel else { return }
+        navigationItem.title = vm.characterName
+        characterLabel.text = vm.characterName
+        characterImageView.image = vm.characterImageObserver.value
+        descriptionLabel.text = vm.characterDescription
+    }
+    
+    private func setupObservers() {
+        guard let vm = viewModel else { return }
+        loaderObserver(vm.isLoading)
+        
+        vm.characterImageObserver.observe { [weak self] (image) in
+            self?.characterImageView.image = image
+        }
     }
 
     deinit {

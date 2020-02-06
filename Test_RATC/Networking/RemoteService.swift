@@ -9,10 +9,9 @@
 import Foundation
 
 fileprivate let CHARACTERS_PAGE_LIMIT = 10
-fileprivate let APIKEY = "ce7ee788e97d280690169aae0bfcde76"
 
 enum Router {
-    case characters
+    case characters(offset: Int)
     case characterId
     
     var scheme: String {
@@ -34,11 +33,14 @@ enum Router {
     
     var parameters: [URLQueryItem] {
         switch self {
-        case .characters:
+        case .characters(let offset):
             return [
                 URLQueryItem(name: "orderBy", value: "name"),
+                URLQueryItem(name: "offset", value: "\(offset)"),
                 URLQueryItem(name: "limit", value: "\(CHARACTERS_PAGE_LIMIT)"),
-                URLQueryItem(name: "apiKey", value: APIKEY)
+                URLQueryItem(name: "apikey", value: NetworkConstants.APIKEY),
+                URLQueryItem(name: "ts", value: NetworkConstants.TIMESTAMP),
+                URLQueryItem(name: "hash", value: NetworkConstants.HASH)
             ]
         case .characterId:
             return []

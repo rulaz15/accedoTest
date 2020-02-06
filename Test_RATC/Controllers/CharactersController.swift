@@ -8,16 +8,20 @@
 
 import UIKit
 
-class CharactersController: UIViewController {
+class CharactersController: BaseViewController {
 
     @IBOutlet weak var charactersCollectionView: UICollectionView!
     
-    private let estimatedWidth: CGFloat = 200.0
+    private let estimatedWidth: CGFloat = 230.0
     private let cellMarginSize: CGFloat = 16.0
+    
+    private let viewModel = CharactersViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
+        setupObservers()
+        viewModel.fetchData()
     }
 
     private func setupCollectionView() {
@@ -31,9 +35,17 @@ class CharactersController: UIViewController {
         }
     }
     
+    private func setupObservers() {
+        loaderObserver(viewModel.isLoading)
+        
+        viewModel.reloadDataEvent.subscribe { [weak self] in
+            self?.charactersCollectionView.reloadData()
+        }
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "detailSegue" {
-         //pass selected object
+        if segue.identifier == "detailSegue", let item = sender as? CharacterDetailViewModel, let destVC = segue.destination as? CharacterDetailController {
+            destVC.viewModel = item
         }
     }
 }
@@ -41,17 +53,22 @@ class CharactersController: UIViewController {
 // MARK: - COLLECTIONVIEW DELEGATE & DATASOURCE
 extension CharactersController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        viewModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CharacterCollectionCell.identifier, for: indexPath) as! CharacterCollectionCell
-        cell.customView.characterNameLabel.text = "tessst"
+        cell.vm = viewModel.getItem(at: indexPath)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "detailSegue", sender: nil)
+        let item = viewModel.getItem(at: indexPath)
+        performSegue(withIdentifier: "detailSegue", sender: item)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        viewModel.willDisplayItem(at: indexPath)
     }
 }
 
