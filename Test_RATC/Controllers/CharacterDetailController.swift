@@ -24,6 +24,7 @@ class CharacterDetailController: BaseViewController {
         setupCollectionView()
         setupContent()
         setupObservers()
+        viewModel?.fetchData()
     }
     
     private func setupCollectionView() {
@@ -39,7 +40,6 @@ class CharacterDetailController: BaseViewController {
     
     private func setupContent() {
         guard let vm = viewModel else { return }
-        navigationItem.title = vm.characterName
         characterLabel.text = vm.characterName
         characterImageView.image = vm.characterImageObserver.value
         descriptionLabel.text = vm.characterDescription
@@ -52,6 +52,10 @@ class CharacterDetailController: BaseViewController {
         vm.characterImageObserver.observe { [weak self] (image) in
             self?.characterImageView.image = image
         }
+        
+        vm.reloadDataEvent.subscribe { [weak self] in
+            self?.comicsCollectionView.reloadData()
+        }
     }
 
     deinit {
@@ -63,14 +67,12 @@ class CharacterDetailController: BaseViewController {
 // MARK: - COLLECTIONVIEW DELEGATE & DATASOURCE
 extension CharacterDetailController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let num = Int.random(in: 1...50)
-        print(num)
-        return min(num, 20)
+        viewModel?.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ComicCollectionCell.identifier, for: indexPath) as! ComicCollectionCell
-//        cell.customView.comicImageView.image = vm.comis[indexPath.row].image
+        cell.comic = viewModel?.getItem(at: indexPath)
         return cell
     }
 }

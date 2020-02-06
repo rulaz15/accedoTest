@@ -11,14 +11,23 @@ import UIKit
 class CharacterDetailViewModel {
     
     let isLoading: Observable = Observable(initialValue: false)
+    let errorObserver: Observable = Observable(initialValue: "")
+    let reloadDataEvent: Event = Event()
     
-    var items: [CharacterData] = []
+    private let character: CharacterData
+
+    var items: [ComicData] = []
     let characterName: String
     let characterImageUrl: String
     let characterDescription: String
-    let characterImageObserver: Observable<UIImage> = Observable(initialValue: #imageLiteral(resourceName: "big-hero-6"))
+    let characterImageObserver: Observable<UIImage> = Observable(initialValue: #imageLiteral(resourceName: "no_image"))
+    
+    var count: Int {
+        items.count
+    }
     
     init(character: CharacterData) {
+        self.character = character
         self.characterName = character.name
         let thumbnail = character.thumbnail
         self.characterImageUrl = thumbnail.path + "." + (thumbnail.thumbnailExtension ?? "jpg")
@@ -26,6 +35,21 @@ class CharacterDetailViewModel {
     }
     
     func fetchData() {
-        
+        isLoading.value = true
+        ServiceLayer.request(router: Router.characterId(id: character.id)) { [weak self] (result: Result<BaseData<ComicData>, Error>) in
+            self?.isLoading.value = false
+            switch result {
+            case .success(let obejcts) :
+                print(obejcts.data.results.count)
+                self?.items = obejcts.data.results
+                self?.reloadDataEvent.emit()
+            case .failure(let e):
+                self?.errorObserver.value = e.localizedDescription
+            }
+        }
+    }
+    
+    func getItem(at indexPath: IndexPath) -> ComicData {
+        items[indexPath.row]
     }
 }

@@ -9,25 +9,27 @@
 import Foundation
 
 fileprivate let CHARACTERS_PAGE_LIMIT = 10
+fileprivate let COMICS_LIMIT = 20
 
 enum Router {
+    
     case characters(offset: Int)
-    case characterId
+    case characterId(id: Int)
     
     var scheme: String {
-        return "https"
+        "https"
     }
     
     var host: String {
-        return "gateway.marvel.com"
+        "gateway.marvel.com"
     }
     
     var path: String {
         switch self {
         case .characters:
             return "/v1/public/characters"
-        case .characterId:
-            return ""
+        case .characterId(let id):
+            return "/v1/public/characters/\(id)/comics"
         }
     }
     
@@ -43,12 +45,17 @@ enum Router {
                 URLQueryItem(name: "hash", value: NetworkConstants.HASH)
             ]
         case .characterId:
-            return []
+            return [
+                URLQueryItem(name: "limit", value: "\(COMICS_LIMIT)"),
+                URLQueryItem(name: "apikey", value: NetworkConstants.APIKEY),
+                URLQueryItem(name: "ts", value: NetworkConstants.TIMESTAMP),
+                URLQueryItem(name: "hash", value: NetworkConstants.HASH)
+            ]
         }
     }
     
     var method: HTTPMethod {
-        return .get
+        .get
     }
 }
 

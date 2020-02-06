@@ -8,14 +8,14 @@
 
 import Foundation
 
-struct BaseData: Codable {
+struct BaseData<T: Codable>: Codable {
     let code: Int
-    let data: ResumeData
+    let data: ResumeData<T>
 }
 
-struct ResumeData: Codable {
+struct ResumeData<T: Codable>: Codable {
     let offset, limit, total, count: Int
-    let results: [CharacterData]
+    let results: [T]
 }
 
 // MARK: - Character
@@ -88,4 +88,21 @@ enum URLType: String, Codable {
     case comiclink = "comiclink"
     case detail = "detail"
     case wiki = "wiki"
+}
+
+
+
+// MARK: - Result
+struct ComicData: Codable {
+    let id, digitalID: Int
+    let title: String
+    let thumbnail: Thumbnail
+    
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case digitalID = "digitalId"
+        case title
+        case thumbnail
+    }
 }

@@ -24,20 +24,19 @@ class CharactersViewModel {
     
     func fetchData() {
         isLoading.value = true
-        ServiceLayer.request(router: Router.characters(offset: offset)) { (result: Result<BaseData, Error>) in
-            self.isLoading.value = false
+        ServiceLayer.request(router: Router.characters(offset: offset)) { [weak self] (result: Result<BaseData<CharacterData>, Error>) in
+            self?.isLoading.value = false
             switch result {
             case .success(let objects):
-                if self.offset == 0 {
-                    self.items = objects.data.results.map { CharacterDetailViewModel(character: $0) }
+                if self?.offset == 0 {
+                    self?.items = objects.data.results.map { CharacterDetailViewModel(character: $0) }
                 } else {
-                    self.items.append(contentsOf: objects.data.results.map { CharacterDetailViewModel(character: $0) })
+                    self?.items.append(contentsOf: objects.data.results.map { CharacterDetailViewModel(character: $0) })
                 }
-                self.reloadDataEvent.emit()
-                self.offset += 10
+                self?.reloadDataEvent.emit()
+                self?.offset += 10
             case .failure(let e):
-                print(e.localizedDescription)
-                self.errorObserver.value = e.localizedDescription
+                self?.errorObserver.value = e.localizedDescription
             }
         }
     }

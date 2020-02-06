@@ -42,11 +42,12 @@ class CharacterCollectionCell: UICollectionViewCell {
     private func setupValues() {
         guard let item = vm else { return }
         customView.characterNameLabel.text = item.characterName
-        customView.characterImageView.kf.setImage(with: URL(string: item.characterImageUrl)) { result in
+        customView.characterImageView.kf.setImage(with: URL(string: item.characterImageUrl), placeholder: #imageLiteral(resourceName: "no_image")) { result in
             if case .success(let value) = result {
                 self.vm?.characterImageObserver.value = value.image
             }
         }
+       
     }
     
     required init?(coder aDecoder: NSCoder) {
