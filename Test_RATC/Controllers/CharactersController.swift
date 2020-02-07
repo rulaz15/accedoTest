@@ -12,7 +12,8 @@ class CharactersController: BaseViewController {
 
     @IBOutlet weak var charactersCollectionView: UICollectionView!
     
-    private let estimatedWidth: CGFloat = 230.0
+    private let refreshControl = UIRefreshControl()
+    private let estimatedWidth: CGFloat = 210.0
     private let cellMarginSize: CGFloat = 16.0
     
     private let viewModel = CharactersViewModel()
@@ -21,13 +22,20 @@ class CharactersController: BaseViewController {
         super.viewDidLoad()
         setupCollectionView()
         setupObservers()
+        loadData()
+    }
+    
+    @objc private func loadData() {
         viewModel.fetchData()
     }
-
+    
     private func setupCollectionView() {
         charactersCollectionView.register(CharacterCollectionCell.self, forCellWithReuseIdentifier: CharacterCollectionCell.identifier)
         charactersCollectionView.delegate = self
         charactersCollectionView.dataSource = self
+        
+        charactersCollectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(loadData), for: .valueChanged)
         
         if let flow = charactersCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
             flow.minimumInteritemSpacing = 16
@@ -40,6 +48,7 @@ class CharactersController: BaseViewController {
         
         viewModel.reloadDataEvent.subscribe { [weak self] in
             self?.charactersCollectionView.reloadData()
+            self?.refreshControl.endRefreshing()
         }
     }
     
@@ -53,7 +62,13 @@ class CharactersController: BaseViewController {
 // MARK: - COLLECTIONVIEW DELEGATE & DATASOURCE
 extension CharactersController: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.count
+        if viewModel.count == 0 {
+            collectionView.addEmptyView()
+        } else {
+            collectionView.restore()
+        }
+        
+        return viewModel.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

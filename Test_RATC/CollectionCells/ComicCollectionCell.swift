@@ -41,6 +41,7 @@ class ComicCollectionCell: UICollectionViewCell {
         guard let path = comic?.thumbnail.path, let ext = comic?.thumbnail.thumbnailExtension else { return }
         let url = path + "." + ext
         customView.comicImageView.kf.setImage(with: URL(string: url), placeholder: #imageLiteral(resourceName: "no_image"))
+        customView.comicNameLabel.text = comic?.title
     }
     
     required init?(coder aDecoder: NSCoder) {

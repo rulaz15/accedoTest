@@ -40,7 +40,6 @@ class CharacterDetailViewModel {
             self?.isLoading.value = false
             switch result {
             case .success(let obejcts) :
-                print(obejcts.data.results.count)
                 self?.items = obejcts.data.results
                 self?.reloadDataEvent.emit()
             case .failure(let e):

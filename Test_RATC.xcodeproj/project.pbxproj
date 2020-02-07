@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E034DC823ECF96D006EC443 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E034DC723ECF96D006EC443 /* EmptyView.swift */; };
+		5E034DCA23ECFB2D006EC443 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E034DC923ECFB2D006EC443 /* UICollectionView+Extension.swift */; };
 		5E5C226623EBAF6D000C8413 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5C226523EBAF6D000C8413 /* Observable.swift */; };
 		5E5C226823EBAFED000C8413 /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5C226723EBAFED000C8413 /* NetworkConstants.swift */; };
 		5E5C226A23EBB27C000C8413 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E5C226923EBB27C000C8413 /* Event.swift */; };
@@ -34,6 +36,8 @@
 /* Begin PBXFileReference section */
 		47FEA55F38C7AF8A050380FC /* Pods-Test_RATC.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Test_RATC.debug.xcconfig"; path = "Target Support Files/Pods-Test_RATC/Pods-Test_RATC.debug.xcconfig"; sourceTree = "<group>"; };
 		4F6823D1D015F611A706A9DE /* Pods_Test_RATC.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Test_RATC.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5E034DC723ECF96D006EC443 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		5E034DC923ECFB2D006EC443 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		5E5C226523EBAF6D000C8413 /* Observable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
 		5E5C226723EBAFED000C8413 /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
 		5E5C226923EBB27C000C8413 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 				5E5C226523EBAF6D000C8413 /* Observable.swift */,
 				5E5C226923EBB27C000C8413 /* Event.swift */,
 				5E5C226723EBAFED000C8413 /* NetworkConstants.swift */,
+				5E034DC723ECF96D006EC443 /* EmptyView.swift */,
 			);
 			path = Test_RATC;
 			sourceTree = "<group>";
@@ -144,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				63C4980723E90D2C00025C43 /* UIView+Extension.swift */,
+				5E034DC923ECFB2D006EC443 /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -313,7 +319,9 @@
 				63C497F623E90A5200025C43 /* CharactersController.swift in Sources */,
 				63C4980C23E9241E00025C43 /* CharacterModel.swift in Sources */,
 				5E5C226C23EBC3A9000C8413 /* ActivityIndicatorView.swift in Sources */,
+				5E034DC823ECF96D006EC443 /* EmptyView.swift in Sources */,
 				5E5C226E23EBC483000C8413 /* BaseViewController.swift in Sources */,
+				5E034DCA23ECFB2D006EC443 /* UICollectionView+Extension.swift in Sources */,
 				63C4980E23E9260300025C43 /* RemoteService.swift in Sources */,
 				63C6E4A423EA768500D74271 /* CharacterCollectionCellView.swift in Sources */,
 				63C497F423E90A5200025C43 /* AppDelegate.swift in Sources */,
